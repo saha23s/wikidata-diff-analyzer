@@ -73,15 +73,15 @@ module WikidataDiffAnalyzer
       diffs_not_analyzed << 0
     end
     # # if mediawiki can be logged in call for 500, otherwise call for 50
-    # if MediawikiLogin.mediawiki_login
-    #   puts 'Logged in to mediawiki'
-    #   result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 500)
-    # else
-    #   puts 'Not logged in to mediawiki'
-    #   result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 50)
-    # end
+    if MediawikiLogin.mediawiki_login
+      puts 'Logged in to mediawiki'
+      result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 500)
+    else
+      puts 'Not logged in to mediawiki'
+      result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 50)
+    end
 
-    result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 50)
+    #result = LargeBatchesAnalyzer.handle_large_batches(revision_ids, 50)
 
     result.each do |revision_id, revision_data|
       current_content = revision_data[:current_content]
@@ -106,3 +106,5 @@ module WikidataDiffAnalyzer
   end
 end
 
+# random_revids = Array.new(500) { rand(1_000_000_000..2_000_000_000) }
+# puts WikidataDiffAnalyzer.analyze(random_revids)[:total]
